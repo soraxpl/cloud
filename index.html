@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cloud Storage by Xnuvers007</title>
+    
+    <script src="https://cdn.jsdelivr.net/npm/appwrite@14.0.1"></script>
+    <link rel="stylesheet" href="./style.css" />
+
+</head>
+<body>
+
+    <button class="dark-mode-toggle" onclick="toggleDarkMode()" title="Toggle Dark Mode">
+        <svg id="darkModeIcon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+        </svg>
+    </button>
+
+    <div class="container">
+        <div class="logo">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                <polyline points="17 8 12 3 7 8"></polyline>
+                <line x1="12" y1="3" x2="12" y2="15"></line>
+            </svg>
+        </div>
+
+        <h2>Cloud Storage</h2>
+        <p class="subtitle">Upload file Anda dengan mudah dan aman</p>
+        
+        <div class="tab-buttons">
+            <button class="tab-btn active" onclick="switchTab('file')">📁 Upload File</button>
+            <button class="tab-btn" onclick="switchTab('url')">🔗 Upload URL</button>
+        </div>
+
+        <div class="tab-content active" id="fileTab">
+            <div class="file-upload-wrapper" id="dropZone">
+                <input type="file" id="uploader" multiple onchange="handleFileSelect()">
+                <label class="file-upload-label" for="uploader">
+                    <div class="upload-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                            <polyline points="17 8 12 3 7 8"></polyline>
+                            <line x1="12" y1="3" x2="12" y2="15"></line>
+                        </svg>
+                    </div>
+                    <div class="file-upload-text">Klik atau Drag & Drop File</div>
+                    <div class="file-upload-hint">Support Multiple Files (Max 50MB)</div>
+                </label>
+            </div>
+            <div class="selected-file" id="selectedFileName"></div>
+            <div class="multiple-upload-info" id="multipleInfo"></div>
+            <div class="file-size-warning" id="fileSizeWarning">⚠️ File terlalu besar! Maksimal 50MB per file.</div>
+        </div>
+
+        <div class="tab-content" id="urlTab">
+            <input type="url" id="imageUrl" class="url-input" placeholder="https://example.com/image.jpg">
+        </div>
+
+        <button onclick="uploadFile()" id="btnUpload">
+            <span id="btnText">Upload Sekarang</span>
+        </button>
+
+        <div class="progress-bar" id="progressBar">
+            <div class="progress-bar-fill"></div>
+        </div>
+
+        <div id="status"></div>
+
+        <div class="preview-area" id="previewContainer">
+            <p>✅ Upload Berhasil!</p>
+            <img id="uploadedImage" src="" alt="Preview">
+            
+            <div class="file-url-box">
+                <a id="fileUrl" href="" target="_blank"></a>
+            </div>
+
+            <div class="share-buttons">
+                <button class="copy-btn" onclick="copyToClipboard()">📋 Salin Link</button>
+                <button class="copy-btn" onclick="downloadFile()" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%);">⬇️ Download</button>
+                <button class="qr-toggle-btn" onclick="toggleQRCode()">📱 QR Code</button>
+                <button class="share-btn" onclick="shareToWhatsApp()">📱 WA</button>
+                <button class="share-btn" onclick="shareToTelegram()">✈️ TG</button>
+            </div>
+
+            <div class="qr-code-container" id="qrCodeContainer">
+                <p style="font-size:12px; margin-bottom:5px; color:#333;">Scan untuk buka file:</p>
+                <img id="qrCodeImage" src="" alt="QR Code" width="150">
+            </div>
+        </div>
+
+        <div class="history-section" id="historySection">
+            <div class="history-title">📜 Riwayat Upload</div>
+            <div class="history-list" id="historyList"></div>
+            <button class="clear-history-btn" onclick="clearHistory()" style="margin-top:10px; width:100%; background:#ef4444; color:white; border:none;">🗑️ Hapus Riwayat</button>
+        </div>
+    </div>
+    <script src="./script.js" defer></script>
+</body>
+</html>
