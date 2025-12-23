@@ -1,0 +1,32 @@
+name: Hapus Semua File Appwrite
+
+on:
+  # Opsi 1: Bisa dijalankan manual lewat tombol
+  workflow_dispatch:
+  
+  # Opsi 2: (Opsional) Jalankan otomatis setiap jam 12 malam
+  schedule:
+    - cron: '0 17 */5 * *'
+    
+jobs:
+  cleanup:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v3
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '21'
+
+    - name: Install Dependencies
+      run: npm install node-appwrite
+
+    - name: Run Delete Script
+      run: node hapus.js
+      env:
+        PROJECT_ID: ${{ secrets.APPWRITE_PROJECT_ID }}
+        BUCKET_ID: ${{ secrets.APPWRITE_BUCKET_ID }}
+        API_KEY: ${{ secrets.APPWRITE_API_KEY }}
