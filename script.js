@@ -11,6 +11,10 @@
         let uploadedFileId = '';
         const MAX_FILE_SIZE = 50 * 1024 * 1024;
 
+        let uploadCount = 0;
+        let uploadResetTime = Date.now() + (10 * 60 * 1000); // Reset setiap 10 menit
+        const MAX_UPLOADS_PER_MINUTE = 10;
+
         window.addEventListener('DOMContentLoaded', () => {
             loadHistory();
             loadDarkMode();
@@ -61,23 +65,35 @@
 
             selectedFileDiv.style.display = 'block';
             if (files.length === 1) {
-                selectedFileDiv.textContent = `📁 ${files[0].name}`;
+                selectedFileDiv.textContent = `📁 ${sanitizeText(files[0].name)}`;
                 multipleInfo.style.display = 'none';
             } else {
                 selectedFileDiv.textContent = `📁 ${files.length} file dipilih`;
-                multipleInfo.textContent = files.map(f => f.name).join(', ');
+                multipleInfo.textContent = files.map(f => sanitizeText(f.name)).join(', ');
                 multipleInfo.style.display = 'block';
             }
         }
 
         async function urlToFile(url) {
             try {
+                const urlObj = new URL(url);
+                    
+                if (!['http:', 'https:'].includes(urlObj.protocol)) {
+                    throw new Error('URL harus menggunakan HTTP atau HTTPS');
+                }
+
                 const response = await fetch(url);
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                    
                 const blob = await response.blob();
-                const filename = url.split('/').pop().split('?')[0] || 'image.jpg';
+                const filename = sanitizeFilename(urlObj.pathname.split('/').pop().split('?')[0] || 'download-Xnuvers007.jpg');
                 return new File([blob], filename, { type: blob.type });
             } catch (e) {
-                throw new Error("Gagal mengambil gambar. Pastikan URL valid dan bisa diakses publik (CORS).");
+                // throw new Error("Gagal mengambil gambar. Pastikan URL valid dan bisa diakses publik (CORS).");
+                throw new Error(`Gagal mengambil file: ${e.message}`);
             }
         }
 
@@ -87,6 +103,16 @@
             const btnText = document.getElementById('btnText');
             const progressBar = document.getElementById('progressBar');
             const previewContainer = document.getElementById('previewContainer');
+
+            if (Date.now() > uploadResetTime) {
+                uploadCount = 0;
+                uploadResetTime = Date.now() + (10 * 60 * 1000);
+            }
+            
+            if (uploadCount >= MAX_UPLOADS_PER_MINUTE) {
+                statusDiv.innerHTML = '<span class="error-text">⚠️ Terlalu banyak upload! Tunggu 1 menit.</span>';
+                return;
+            }
 
             statusDiv.innerHTML = "";
             previewContainer.style.display = 'none';
@@ -108,13 +134,19 @@
                     progressBar.style.display = 'none';
                     return;
                 }
+                if (!isValidURL(url)) {
+                    statusDiv.innerHTML = '<span class="error-text">⚠️ URL tidak valid! Gunakan HTTP/HTTPS.</span>';
+                    progressBar.style.display = 'none';
+                    return;
+                }
                 try {
                     btnText.innerText = "Mengunduh gambar...";
                     const fileFromUrl = await urlToFile(url);
                     finalFiles = [fileFromUrl];
                 } catch (err) {
-                    statusDiv.innerHTML = `<span class="error-text">❌ ${err.message}</span>`;
+                    statusDiv.innerHTML = `<span class="error-text">❌ ${sanitizeText(err.message)}</span>`;
                     progressBar.style.display = 'none';
+                    btnText.innerText = "Upload Sekarang";
                     return;
                 }
             }
@@ -127,13 +159,15 @@
                 for (let i = 0; i < finalFiles.length; i++) {
                     const file = finalFiles[i];
                     btnText.innerText = `Mengupload (${i+1}/${finalFiles.length})...`;
+
+                    const sanitizedFile = new File([file], sanitizeFilename(file.name), { type: file.type });
                     
-                    const response = await storage.createFile(BUCKET_ID, ID.unique(), file);
+                    const response = await storage.createFile(BUCKET_ID, ID.unique(), sanitizedFile);
                     
                     const resultUrl = storage.getFileView(BUCKET_ID, response.$id);
                     
                     lastResult = {
-                        name: file.name,
+                        name: sanitizeText(file.name),
                         url: resultUrl,
                         fileId: response.$id,
                         date: new Date().toISOString()
@@ -141,6 +175,7 @@
                     
                     saveToHistory(lastResult);
                     successCount++;
+                    uploadCount++;
                     
                     const percent = ((i + 1) / finalFiles.length) * 100;
                     document.querySelector('.progress-bar-fill').style.width = `${percent}%`;
@@ -159,7 +194,7 @@
 
             } catch (error) {
                 console.error(error);
-                statusDiv.innerHTML = `<span class="error-text">❌ Error: ${error.message}</span>`;
+                statusDiv.innerHTML = `<span class="error-text">❌ Error: ${sanitizeText(error.message)}</span>`;
             } finally {
                 btn.disabled = false;
                 btnText.innerText = "Upload Sekarang";
@@ -232,18 +267,22 @@
             }
             
             section.style.display = 'block';
-            list.innerHTML = history.map(item => `
+            list.innerHTML = history.map(item => {
+                const safeName = sanitizeText(item.name);
+                const safeDate = sanitizeText(new Date(item.date).toLocaleString());
+                
+                return `
                 <div class="history-item">
                     <div class="history-item-info">
-                        <div><b>${item.name.substring(0, 20)}${item.name.length>20?'...':''}</b></div>
-                        <div class="history-item-date">${new Date(item.date).toLocaleString()}</div>
+                        <div><b>${safeName.substring(0, 20)}${safeName.length>20?'...':''}</b></div>
+                        <div class="history-item-date">${safeDate}</div>
                     </div>
                     <div style="display: flex; gap: 5px;">
-                        <a href="${item.url}" target="_blank" class="history-item-link">Lihat</a>
-                        ${item.fileId ? `<a href="${storage.getFileDownload(BUCKET_ID, item.fileId)}" target="_blank" class="history-item-link" style="background: #10b981;">⬇️</a>` : ''}
+                        <a href="${item.url}" target="_blank" rel="noopener noreferrer" class="history-item-link">Lihat</a>
+                        ${item.fileId ? `<a href="${storage.getFileDownload(BUCKET_ID, item.fileId)}" target="_blank" rel="noopener noreferrer" class="history-item-link" style="background: #10b981;">⬇️</a>` : ''}
                     </div>
                 </div>
-            `).join('');
+            `}).join('');
         }
 
         function clearHistory() {
@@ -272,5 +311,25 @@
                 icon.innerHTML = '<circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>';
             } else {
                 icon.innerHTML = '<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>';
+            }
+        }
+
+
+        function sanitizeText(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        function sanitizeFilename(filename) {
+            return filename.replace(/[^a-zA-Z0-9._-]/g, '_').substring(0, 255);
+        }
+
+        function isValidURL(string) {
+            try {
+                const url = new URL(string);
+                return url.protocol === 'http:' || url.protocol === 'https:';
+            } catch (_) {
+                return false;
             }
         }
