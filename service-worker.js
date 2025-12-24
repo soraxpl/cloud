@@ -1,6 +1,6 @@
-const CACHE_NAME = "cloud-storage-v3";
-const RUNTIME_CACHE = "cloud-storage-runtime-v3";
-const IMAGE_CACHE = "cloud-storage-images-v3";
+const CACHE_NAME = "cloud-storage-v4";
+const RUNTIME_CACHE = "cloud-storage-runtime-v4";
+const IMAGE_CACHE = "cloud-storage-images-v4";
 
 const isLocalhost =
   self.location.hostname === "localhost" ||
