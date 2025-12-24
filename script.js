@@ -28,7 +28,33 @@ window.addEventListener("DOMContentLoaded", () => {
   requestNotificationPermission();
   initPasteFromClipboard();
   startExpiryTimers();
+  initDragAndDrop();
 });
+
+// Initialize drag and drop
+function initDragAndDrop() {
+  const dropZone = document.getElementById("dropZone");
+  if (!dropZone) return;
+  
+  ["dragenter", "dragover", "dragleave", "drop"].forEach((eventName) => {
+    dropZone.addEventListener(
+      eventName,
+      (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+      },
+      false
+    );
+  });
+  dropZone.addEventListener("dragover", () => dropZone.classList.add("dragover"));
+  dropZone.addEventListener("dragleave", () =>
+    dropZone.classList.remove("dragover")
+  );
+  dropZone.addEventListener("drop", (e) => {
+    dropZone.classList.remove("dragover");
+    processFiles(Array.from(e.dataTransfer.files));
+  });
+}
 
 async function requestNotificationPermission() {
   if (!("Notification" in window)) {
@@ -180,26 +206,6 @@ function handleFileSelect() {
   const fileInput = document.getElementById("uploader");
   processFiles(Array.from(fileInput.files));
 }
-
-const dropZone = document.getElementById("dropZone");
-["dragenter", "dragover", "dragleave", "drop"].forEach((eventName) => {
-  dropZone.addEventListener(
-    eventName,
-    (e) => {
-      e.preventDefault();
-      e.stopPropagation();
-    },
-    false
-  );
-});
-dropZone.addEventListener("dragover", () => dropZone.classList.add("dragover"));
-dropZone.addEventListener("dragleave", () =>
-  dropZone.classList.remove("dragover")
-);
-dropZone.addEventListener("drop", (e) => {
-  dropZone.classList.remove("dragover");
-  processFiles(Array.from(e.dataTransfer.files));
-});
 
 function processFiles(files) {
   filesToUpload = files;
