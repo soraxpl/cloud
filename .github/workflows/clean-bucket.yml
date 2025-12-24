@@ -5,6 +5,7 @@ on:
   workflow_dispatch:
   
   # Opsi 2: (Opsional) Jalankan otomatis setiap jam 12 malam
+  # Runs at 17:00, every 5 days.
   schedule:
     - cron: '0 17 */5 * *'
     
