@@ -1,0 +1,83 @@
+{
+    "author": "Xnuvers007",
+    "background_color": "#667eea",
+    "categories": [
+        "productivity",
+        "utilities"
+    ],
+    "description": "Upload dan share files dengan mudah dan aman",
+    "dir": "ltr",
+    "display": "standalone",
+    "icons": [
+        {
+            "sizes": "48x48 64x64",
+            "src": "https://raw.githubusercontent.com/soraxpl/soraxpl.github.io/refs/heads/master/favicon.ico",
+            "type": "image/x-icon"
+        },
+        {
+            "purpose": "any maskable",
+            "sizes": "192x192",
+            "src": "https://raw.githubusercontent.com/soraxpl/soraxpl.github.io/refs/heads/master/favicon.ico",
+            "type": "image/png"
+        },
+        {
+            "purpose": "any maskable",
+            "sizes": "512x512",
+            "src": "https://raw.githubusercontent.com/soraxpl/soraxpl.github.io/refs/heads/master/favicon.ico",
+            "type": "image/png"
+        }
+    ],
+    "id": "com.xnuvers007.cloud",
+    "lang": "id",
+    "manifest_version": 2,
+    "name": "Cloud Storage by Xnuvers007",
+    "orientation": "any",
+    "prefer_related_applications": false,
+    "scope": "./",
+    "screenshots": [
+        {
+            "form_factor": "narrow",
+            "label": "Upload File Interface",
+            "sizes": "540x720",
+            "src": "screenshot1.jpg",
+            "type": "image/jpeg"
+        },
+        {
+            "form_factor": "wide",
+            "label": "Cloud Storage Dashboard",
+            "sizes": "1024x593",
+            "src": "./screenshot1.jpg",
+            "type": "image/jpeg"
+        }
+    ],
+    "short_name": "Cloud Storage",
+    "shortcuts": [
+        {
+            "description": "Langsung upload file ke cloud storage",
+            "icons": [
+                {
+                    "sizes": "96x96",
+                    "src": "https://raw.githubusercontent.com/soraxpl/soraxpl.github.io/refs/heads/master/favicon.ico"
+                }
+            ],
+            "name": "Upload File",
+            "short_name": "Upload",
+            "url": "./index.html#uploader"
+        },
+        {
+            "description": "Akses file yang sudah diupload",
+            "icons": [
+                {
+                    "sizes": "96x96",
+                    "src": "https://raw.githubusercontent.com/soraxpl/soraxpl.github.io/refs/heads/master/favicon.ico"
+                }
+            ],
+            "name": "Lihat File Saya",
+            "short_name": "File Saya",
+            "url": "./index.html#historyList"
+        }
+    ],
+    "start_url": "./index.html",
+    "theme_color": "#667eea",
+    "version": "1.0.0"
+}

@@ -1,136 +1,543 @@
 <!DOCTYPE html>
 <html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover"
+    />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta
+      name="apple-mobile-web-app-status-bar-style"
+      content="black-translucent"
+    />
     <title>Cloud Storage by Xnuvers007</title>
-    
-    <script src="https://cdn.jsdelivr.net/npm/appwrite@21.5.0"></script>
+
+    <link rel="dns-prefetch" href="https://cdn.jsdelivr.net" />
+    <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com" />
+    <link rel="dns-prefetch" href="https://cloud.appwrite.io" />
+    <link rel="dns-prefetch" href="https://raw.githubusercontent.com" />
+    <link rel="dns-prefetch" href="https://api.qrserver.com" />
+
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin />
+    <link rel="preconnect" href="https://cloud.appwrite.io" crossorigin />
+
+    <link rel="preload" href="./style.css" as="style" />
+    <link rel="preload" href="./script.js" as="script" />
+    <link
+      rel="preload"
+      href="https://cdn.jsdelivr.net/npm/appwrite@21.5.0"
+      as="script"
+      crossorigin
+    />
+    <link
+      rel="preload"
+      href="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"
+      as="script"
+      crossorigin
+    />
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/appwrite@21.5.0"
+      async
+      crossorigin
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"
+      async
+      crossorigin
+    ></script>
+
     <link rel="stylesheet" href="./style.css" />
 
-    <link rel="icon" type="image/x-icon" href="https://raw.githubusercontent.com/soraxpl/soraxpl.github.io/refs/heads/master/favicon.ico">
-    <link rel="shortcut icon" type="image/x-icon" href="https://raw.githubusercontent.com/soraxpl/soraxpl.github.io/refs/heads/master/favicon.ico">
+    <link
+      rel="icon"
+      type="image/x-icon"
+      href="https://raw.githubusercontent.com/soraxpl/soraxpl.github.io/refs/heads/master/favicon.ico"
+    />
+    <link
+      rel="shortcut icon"
+      type="image/x-icon"
+      href="https://raw.githubusercontent.com/soraxpl/soraxpl.github.io/refs/heads/master/favicon.ico"
+    />
 
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https: blob:; connect-src 'self' https: https://cloud.appwrite.io https://api.qrserver.com; frame-src 'none'; object-src 'none';">    <meta http-equiv="X-Content-Type-Options" content="nosniff">
-    <meta http-equiv="X-Frame-Options" content="DENY">
-    <meta name="referrer" content="strict-origin-when-cross-origin">
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https: blob:; connect-src 'self' https: https://cloud.appwrite.io https://api.qrserver.com; frame-src 'none'; object-src 'none';"
+    />
+    <meta http-equiv="X-Content-Type-Options" content="nosniff" />
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
 
     <!-- HTML Meta Tags -->
-    <meta name="description" content="Cloud Storage for upload files, you can upload now and sharing to your friends!">
-    <meta name="language" content="id">
-    <meta name="author" content="Xnuvers007">
-    <meta name="keywords" content="cloud,storage,cloudstorage,cloud-storage,xnuvers007">
-    <meta name="robots" content="index, follow">
-    
+    <meta
+      name="description"
+      content="Cloud Storage for upload files, you can upload now and sharing to your friends!"
+    />
+    <meta name="language" content="id" />
+    <meta name="author" content="Xnuvers007" />
+    <meta
+      name="keywords"
+      content="cloud,storage,cloudstorage,cloud-storage,xnuvers007"
+    />
+    <meta name="robots" content="index, follow" />
+
     <!-- Google / Search Engine Tags -->
-    <meta itemprop="name" content="Cloud Storage by Xnuvers007">
-    <meta itemprop="description" content="Cloud Storage for upload files, you can upload now and sharing to your friends!">
-    <meta itemprop="image" content="https://raw.githubusercontent.com/soraxpl/soraxpl.github.io/refs/heads/master/favicon.ico">
-    
+    <meta itemprop="name" content="Cloud Storage by Xnuvers007" />
+    <meta
+      itemprop="description"
+      content="Cloud Storage for upload files, you can upload now and sharing to your friends!"
+    />
+    <meta
+      itemprop="image"
+      content="https://raw.githubusercontent.com/soraxpl/soraxpl.github.io/refs/heads/master/favicon.ico"
+    />
+
     <!-- Facebook Meta Tags -->
-    <meta property="og:url" content="https://soraxpl.github.io/cloud/">
+    <meta property="og:url" content="https://soraxpl.github.io/cloud/" />
     <meta property="og:type" content="website" />
     <meta property="og:title" content="File Uploader by Xnuvers007" />
-    <meta property="og:description" content="Cloud Storage for upload files, you can upload now and sharing to your friends!" />
-    <meta property="og:image" content="https://raw.githubusercontent.com/soraxpl/soraxpl.github.io/refs/heads/master/favicon.ico" />
+    <meta
+      property="og:description"
+      content="Cloud Storage for upload files, you can upload now and sharing to your friends!"
+    />
+    <meta
+      property="og:image"
+      content="https://raw.githubusercontent.com/soraxpl/soraxpl.github.io/refs/heads/master/favicon.ico"
+    />
     <meta property="og:site_name" content="Cloud Storage by Xnuvers007" />
-    
+
     <!-- Twitter Meta Tags -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="File Uploader by Xnuvers007" />
-    <meta name="twitter:description" content="Cloud Storage for upload files, you can upload now and sharing to your friends!" />
-    <meta name="twitter:image" content="https://raw.githubusercontent.com/soraxpl/soraxpl.github.io/refs/heads/master/favicon.ico" />
-    
+    <meta
+      name="twitter:description"
+      content="Cloud Storage for upload files, you can upload now and sharing to your friends!"
+    />
+    <meta
+      name="twitter:image"
+      content="https://raw.githubusercontent.com/soraxpl/soraxpl.github.io/refs/heads/master/favicon.ico"
+    />
+
     <!-- Meta Tags Generated via https://github.com/Xnuvers007/Meta-Generator -->
 
-</head>
-<body>
+    <link rel="manifest" href="./manifest.json" />
 
-    <button class="dark-mode-toggle" onclick="toggleDarkMode()" title="Toggle Dark Mode">
-        <svg id="darkModeIcon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
-        </svg>
+    <link
+      rel="preload"
+      href="https://raw.githubusercontent.com/soraxpl/soraxpl.github.io/refs/heads/master/favicon.ico"
+      as="image"
+      type="image/x-icon"
+    />
+  </head>
+  <body>
+    <button
+      class="dark-mode-toggle"
+      onclick="toggleDarkMode()"
+      title="Toggle Dark Mode"
+    >
+      <svg
+        id="darkModeIcon"
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 24 24"
+      >
+        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+      </svg>
+    </button>
+
+    <button
+      class="install-button"
+      id="installButton"
+      style="display: none"
+      title="Install App"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+        <polyline points="7 10 12 15 17 10"></polyline>
+        <line x1="12" y1="15" x2="12" y2="3"></line>
+      </svg>
     </button>
 
     <div class="container">
-        <div class="logo">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <div class="logo">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+          <polyline points="17 8 12 3 7 8"></polyline>
+          <line x1="12" y1="3" x2="12" y2="15"></line>
+        </svg>
+      </div>
+
+      <h2>Cloud Storage</h2>
+      <p class="subtitle">
+        Upload file Anda dengan mudah dan aman (Hilang setelah 5 hari)
+      </p>
+
+      <div class="pwa-banner" id="pwaBanner" style="display: none">
+        <span>📲 Install app untuk pengalaman lebih baik!</span>
+        <button onclick="showInstallPrompt()" class="pwa-banner-btn">
+          Install
+        </button>
+      </div>
+
+      <div
+        class="notification-banner"
+        id="notificationBanner"
+        style="display: none"
+      >
+        <div class="notification-banner-content">
+          <span>🔔 Aktifkan notifikasi untuk info upload!</span>
+          <button
+            onclick="requestNotificationPermissionFromBanner()"
+            class="notification-banner-btn"
+          >
+            Izinkan
+          </button>
+        </div>
+        <div
+          class="notification-banner-instructions"
+          id="notificationInstructions"
+          style="display: none"
+        >
+          <p
+            style="
+              font-size: 11px;
+              margin: 5px 0 0 0;
+              color: #fff;
+              opacity: 0.9;
+            "
+          >
+            📋 <strong>Cara mengaktifkan notifikasi:</strong><br />
+            <span style="font-size: 10px">
+              • <strong>Chrome:</strong> Klik ikon 🔒 di address bar → Site
+              settings → Notifications → Allow<br />
+              • <strong>Firefox:</strong> Klik ikon 🔒 di address bar →
+              Permissions → Notifications → Allow<br />
+              • <strong>Safari:</strong> Safari → Settings → Websites →
+              Notifications → Allow<br />
+              • <strong>Edge:</strong> Klik ikon 🔒 di address bar → Permissions
+              for this site → Notifications → Allow
+            </span>
+          </p>
+        </div>
+      </div>
+
+      <div class="tab-buttons">
+        <button class="tab-btn active" onclick="switchTab('file')">
+          📁 Upload File
+        </button>
+        <button class="tab-btn" onclick="switchTab('url')">
+          🔗 Upload URL
+        </button>
+      </div>
+
+      <div class="tab-content active" id="fileTab">
+        <div class="file-upload-wrapper" id="dropZone">
+          <input
+            type="file"
+            id="uploader"
+            multiple
+            onchange="handleFileSelect()"
+          />
+          <label class="file-upload-label" for="uploader">
+            <div class="upload-icon">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
                 <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
                 <polyline points="17 8 12 3 7 8"></polyline>
                 <line x1="12" y1="3" x2="12" y2="15"></line>
-            </svg>
-        </div>
-
-        <h2>Cloud Storage</h2>
-        <p class="subtitle">Upload file Anda dengan mudah dan aman (Hilang setelah 5 hari)</p>
-        
-        <div class="tab-buttons">
-            <button class="tab-btn active" onclick="switchTab('file')">📁 Upload File</button>
-            <button class="tab-btn" onclick="switchTab('url')">🔗 Upload URL</button>
-        </div>
-
-        <div class="tab-content active" id="fileTab">
-            <div class="file-upload-wrapper" id="dropZone">
-                <input type="file" id="uploader" multiple onchange="handleFileSelect()">
-                <label class="file-upload-label" for="uploader">
-                    <div class="upload-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-                            <polyline points="17 8 12 3 7 8"></polyline>
-                            <line x1="12" y1="3" x2="12" y2="15"></line>
-                        </svg>
-                    </div>
-                    <div class="file-upload-text">Klik atau Drag & Drop File</div>
-                    <div class="file-upload-hint">Support Multiple Files (Max 50MB)</div>
-                </label>
+              </svg>
             </div>
-            <div class="selected-file" id="selectedFileName"></div>
-            <div class="multiple-upload-info" id="multipleInfo"></div>
-            <div class="file-size-warning" id="fileSizeWarning">⚠️ File terlalu besar! Maksimal 50MB per file.</div>
+            <div class="file-upload-text">Klik atau Drag & Drop File</div>
+            <div class="file-upload-hint">
+              Support Multiple Files (Max 50MB)
+            </div>
+          </label>
+        </div>
+        <div class="selected-file" id="selectedFileName"></div>
+        <div class="multiple-upload-info" id="multipleInfo"></div>
+        <div class="file-size-warning" id="fileSizeWarning">
+          ⚠️ File terlalu besar! Maksimal 50MB per file.
+        </div>
+      </div>
+
+      <div class="tab-content" id="urlTab">
+        <input
+          type="url"
+          id="imageUrl"
+          class="url-input"
+          placeholder="https://example.com/image.jpg"
+        />
+      </div>
+
+      <button onclick="uploadFile()" id="btnUpload">
+        <span id="btnText">Upload Sekarang</span>
+      </button>
+
+      <div class="progress-bar" id="progressBar">
+        <div class="progress-bar-fill"></div>
+      </div>
+
+      <div id="status"></div>
+
+      <div class="preview-area" id="previewContainer">
+        <p>✅ Upload Berhasil!</p>
+        <img id="uploadedImage" src="" alt="Preview" />
+
+        <div class="file-url-box">
+          <a id="fileUrl" href="" target="_blank" rel="noopener noreferrer"></a>
         </div>
 
-        <div class="tab-content" id="urlTab">
-            <input type="url" id="imageUrl" class="url-input" placeholder="https://example.com/image.jpg">
+        <div class="share-buttons">
+          <button class="copy-btn" onclick="copyToClipboard()">
+            📋 Salin Link
+          </button>
+          <button
+            class="copy-btn"
+            onclick="downloadFile()"
+            style="
+              background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            "
+          >
+            ⬇️ Download
+          </button>
+          <button class="qr-toggle-btn" onclick="toggleQRCode()">
+            📱 QR Code
+          </button>
+          <button class="share-btn" onclick="shareToWhatsApp()">📱 WA</button>
+          <button class="share-btn" onclick="shareToTelegram()">✈️ TG</button>
         </div>
 
-        <button onclick="uploadFile()" id="btnUpload">
-            <span id="btnText">Upload Sekarang</span>
+        <div class="qr-code-container" id="qrCodeContainer">
+          <p style="font-size: 12px; margin-bottom: 5px; color: #333">
+            Scan untuk buka file:
+          </p>
+          <img id="qrCodeImage" src="" alt="QR Code" width="150" />
+        </div>
+      </div>
+
+      <div class="history-section" id="historySection">
+        <div class="history-header">
+          <div class="history-title">📜 Riwayat Upload</div>
+          <div class="batch-controls" id="batchControls" style="display: none">
+            <button
+              class="batch-select-btn"
+              onclick="toggleSelectAll()"
+              id="selectAllBtn"
+            >
+              ☑️ Pilih Semua
+            </button>
+            <button
+              class="batch-download-btn"
+              onclick="batchDownload()"
+              id="batchDownloadBtn"
+            >
+              📦 Download ZIP
+            </button>
+          </div>
+        </div>
+        <div class="history-list" id="historyList"></div>
+        <div
+          class="history-load-more"
+          id="loadMoreHistory"
+          style="display: none"
+        >
+          <button onclick="loadMoreHistory()" class="load-more-btn">
+            Muat Lebih Banyak...
+          </button>
+        </div>
+        <button
+          class="clear-history-btn"
+          onclick="clearHistory()"
+          style="
+            margin-top: 10px;
+            width: 100%;
+            background: #ef4444;
+            color: white;
+            border: none;
+          "
+        >
+          🗑️ Hapus Riwayat
         </button>
-
-        <div class="progress-bar" id="progressBar">
-            <div class="progress-bar-fill"></div>
-        </div>
-
-        <div id="status"></div>
-
-        <div class="preview-area" id="previewContainer">
-            <p>✅ Upload Berhasil!</p>
-            <img id="uploadedImage" src="" alt="Preview">
-            
-            <div class="file-url-box">
-                <a id="fileUrl" href="" target="_blank" rel="noopener noreferrer"></a>
-            </div>
-
-            <div class="share-buttons">
-                <button class="copy-btn" onclick="copyToClipboard()">📋 Salin Link</button>
-                <button class="copy-btn" onclick="downloadFile()" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%);">⬇️ Download</button>
-                <button class="qr-toggle-btn" onclick="toggleQRCode()">📱 QR Code</button>
-                <button class="share-btn" onclick="shareToWhatsApp()">📱 WA</button>
-                <button class="share-btn" onclick="shareToTelegram()">✈️ TG</button>
-            </div>
-
-            <div class="qr-code-container" id="qrCodeContainer">
-                <p style="font-size:12px; margin-bottom:5px; color:#333;">Scan untuk buka file:</p>
-                <img id="qrCodeImage" src="" alt="QR Code" width="150">
-            </div>
-        </div>
-
-        <div class="history-section" id="historySection">
-            <div class="history-title">📜 Riwayat Upload</div>
-            <div class="history-list" id="historyList"></div>
-            <button class="clear-history-btn" onclick="clearHistory()" style="margin-top:10px; width:100%; background:#ef4444; color:white; border:none;">🗑️ Hapus Riwayat</button>
-        </div>
+      </div>
     </div>
+
+    <div class="toast-container" id="toastContainer"></div>
+
+    <div class="install-prompt" id="installPrompt" style="display: none">
+      <div class="install-prompt-content">
+        <h3>📲 Install Cloud Storage</h3>
+        <p>
+          Install aplikasi untuk akses lebih cepat dan pengalaman yang lebih
+          baik!
+        </p>
+        <div class="install-prompt-buttons">
+          <button class="install-prompt-btn install-yes" onclick="installApp()">
+            ✅ Install
+          </button>
+          <button
+            class="install-prompt-btn install-no"
+            onclick="dismissInstallPrompt()"
+          >
+            ❌ Nanti
+          </button>
+        </div>
+      </div>
+    </div>
+
     <script src="./script.js" defer></script>
-</body>
+    <script>
+      if ("serviceWorker" in navigator) {
+        window.addEventListener("load", () => {
+          const swPath = "./service-worker.js";
+          const swOptions = {
+            scope: "./",
+          };
+
+          navigator.serviceWorker
+            .register(swPath, swOptions)
+            .then((registration) => {
+              console.log("✅ ServiceWorker registered:", registration.scope);
+              registration.addEventListener("updatefound", () => {
+                const newWorker = registration.installing;
+                newWorker.addEventListener("statechange", () => {
+                  if (
+                    newWorker.state === "installed" &&
+                    navigator.serviceWorker.controller
+                  ) {
+                    if (
+                      confirm("🔄 Versi baru tersedia! Refresh untuk update?")
+                    ) {
+                      newWorker.postMessage({ action: "skipWaiting" });
+                      window.location.reload();
+                    }
+                  }
+                });
+              });
+            })
+            .catch((error) => {
+              console.log("❌ ServiceWorker registration failed:", error);
+            });
+        });
+        let refreshing = false;
+        navigator.serviceWorker.addEventListener("controllerchange", () => {
+          if (!refreshing) {
+            refreshing = true;
+            window.location.reload();
+          }
+        });
+      }
+      let deferredPrompt;
+      const installButton = document.getElementById("installButton");
+      const installPrompt = document.getElementById("installPrompt");
+      const pwaBanner = document.getElementById("pwaBanner");
+
+      window.addEventListener("beforeinstallprompt", (e) => {
+        console.log("💡 beforeinstallprompt event fired");
+        e.preventDefault();
+        deferredPrompt = e;
+
+        console.log("✅ Install prompt ready");
+        installButton.style.display = "flex";
+        pwaBanner.style.display = "flex";
+        setTimeout(() => {
+          if (
+            deferredPrompt &&
+            !localStorage.getItem("installPromptDismissed")
+          ) {
+            installPrompt.style.display = "flex";
+          }
+        }, 15000);
+      });
+      function showInstallPrompt() {
+        if (deferredPrompt) {
+          installPrompt.style.display = "flex";
+        } else {
+          const instructions =
+            "Cara install aplikasi:\n\n" +
+            "📱 Android (Chrome/Edge):\n" +
+            "1. Tap menu (⋮) di pojok kanan atas\n" +
+            '2. Pilih "Add to Home screen" atau "Install app"\n\n' +
+            "📱 iOS (Safari):\n" +
+            "1. Tap tombol Share (⬆️) di bawah\n" +
+            '2. Scroll dan tap "Add to Home Screen"\n' +
+            '3. Tap "Add"\n\n' +
+            "💻 Desktop (Chrome/Edge):\n" +
+            "1. Klik icon install (➕) di address bar\n" +
+            '2. Atau menu (⋮) → "Install Cloud Storage"';
+
+          alert(instructions);
+        }
+      }
+
+      installButton.addEventListener("click", showInstallPrompt);
+
+      function installApp() {
+        if (deferredPrompt) {
+          deferredPrompt.prompt();
+          deferredPrompt.userChoice.then((choiceResult) => {
+            if (choiceResult.outcome === "accepted") {
+              console.log("✅ User accepted the install prompt");
+              vibrate(200);
+            } else {
+              console.log("❌ User dismissed the install prompt");
+            }
+            deferredPrompt = null;
+            installPrompt.style.display = "none";
+            installButton.style.display = "none";
+          });
+        }
+      }
+
+      function dismissInstallPrompt() {
+        installPrompt.style.display = "none";
+        localStorage.setItem("installPromptDismissed", "true");
+        setTimeout(() => {
+          localStorage.removeItem("installPromptDismissed");
+        }, 7 * 24 * 60 * 60 * 1000);
+      }
+      window.addEventListener("appinstalled", (evt) => {
+        console.log("✅ App installed successfully!");
+        installButton.style.display = "none";
+        installPrompt.style.display = "none";
+        pwaBanner.style.display = "none";
+        alert(
+          "✅ Cloud Storage berhasil diinstall! Buka dari home screen Anda."
+        );
+      });
+      if (
+        window.matchMedia("(display-mode: standalone)").matches ||
+        window.navigator.standalone === true
+      ) {
+        console.log("📱 Running as installed PWA");
+        installButton.style.display = "none";
+      }
+      // Testing mode: Uncomment line dibawah untuk force show banner & button
+      // installButton.style.display = 'flex';
+      // pwaBanner.style.display = 'flex';
+    </script>
+  </body>
 </html>

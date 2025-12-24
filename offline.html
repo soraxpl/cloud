@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Offline - Cloud Storage</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Segoe UI", -apple-system, BlinkMacSystemFont, sans-serif;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        padding: 20px;
+      }
+
+      .offline-container {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        padding: 3rem 2rem;
+        border-radius: 24px;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        text-align: center;
+        max-width: 500px;
+        width: 100%;
+        animation: slideUp 0.6s ease;
+      }
+
+      @keyframes slideUp {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .offline-icon {
+        width: 100px;
+        height: 100px;
+        background: linear-gradient(135deg, #f02e65 0%, #ff6b9d 100%);
+        border-radius: 50%;
+        margin: 0 auto 2rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        animation: pulse 2s infinite;
+      }
+
+      @keyframes pulse {
+        0%,
+        100% {
+          transform: scale(1);
+          box-shadow: 0 0 0 0 rgba(240, 46, 101, 0.7);
+        }
+        50% {
+          transform: scale(1.05);
+          box-shadow: 0 0 0 20px rgba(240, 46, 101, 0);
+        }
+      }
+
+      .offline-icon svg {
+        width: 50px;
+        height: 50px;
+        stroke: white;
+        stroke-width: 2;
+      }
+
+      h1 {
+        color: #1a1a2e;
+        margin-bottom: 1rem;
+        font-size: 28px;
+      }
+
+      p {
+        color: #6b7280;
+        margin-bottom: 2rem;
+        line-height: 1.6;
+        font-size: 16px;
+      }
+
+      .retry-button {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border: none;
+        padding: 14px 32px;
+        border-radius: 12px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: transform 0.2s;
+        box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+      }
+
+      .retry-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 16px rgba(102, 126, 234, 0.6);
+      }
+
+      .offline-tips {
+        margin-top: 2rem;
+        padding: 1.5rem;
+        background: #f9fafb;
+        border-radius: 12px;
+        text-align: left;
+      }
+
+      .offline-tips h3 {
+        color: #1a1a2e;
+        margin-bottom: 1rem;
+        font-size: 18px;
+      }
+
+      .offline-tips ul {
+        list-style: none;
+        padding: 0;
+      }
+
+      .offline-tips li {
+        padding: 0.5rem 0;
+        color: #6b7280;
+        font-size: 14px;
+      }
+
+      .offline-tips li:before {
+        content: "✓ ";
+        color: #10b981;
+        font-weight: bold;
+        margin-right: 8px;
+      }
+
+      @media (max-width: 480px) {
+        .offline-container {
+          padding: 2rem 1.5rem;
+        }
+
+        h1 {
+          font-size: 24px;
+        }
+
+        p {
+          font-size: 14px;
+        }
+
+        .offline-icon {
+          width: 80px;
+          height: 80px;
+        }
+
+        .offline-icon svg {
+          width: 40px;
+          height: 40px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="offline-container">
+      <div class="offline-icon">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <line x1="1" y1="1" x2="23" y2="23"></line>
+          <path d="M16.72 11.06A10.94 10.94 0 0 1 19 12.55"></path>
+          <path d="M5 12.55a10.94 10.94 0 0 1 5.17-2.39"></path>
+          <path d="M10.71 5.05A16 16 0 0 1 22.58 9"></path>
+          <path d="M1.42 9a15.91 15.91 0 0 1 4.7-2.88"></path>
+          <path d="M8.53 16.11a6 6 0 0 1 6.95 0"></path>
+          <line x1="12" y1="20" x2="12.01" y2="20"></line>
+        </svg>
+      </div>
+
+      <h1>📵 Tidak Ada Koneksi</h1>
+      <p>
+        Anda sedang offline. Beberapa fitur mungkin tidak tersedia, tapi
+        aplikasi tetap bisa digunakan untuk melihat file yang sudah di-cache.
+      </p>
+
+      <button class="retry-button" onclick="retry()">🔄 Coba Lagi</button>
+
+      <div class="offline-tips">
+        <h3>💡 Yang Bisa Dilakukan:</h3>
+        <ul>
+          <li>Lihat riwayat upload sebelumnya</li>
+          <li>Akses file yang sudah di-cache</li>
+          <li>Interface tetap bisa dinavigasi</li>
+          <li>Data tersimpan saat kembali online</li>
+        </ul>
+      </div>
+    </div>
+
+    <script>
+      function retry() {
+        if (navigator.onLine) {
+          window.location.href = "/cloud/";
+        } else {
+          alert("⚠️ Masih offline. Cek koneksi internet Anda.");
+        }
+      }
+
+      window.addEventListener("online", () => {
+        console.log("✅ Kembali online!");
+        setTimeout(() => {
+          window.location.href = "/cloud/";
+        }, 1000);
+      });
+
+      setInterval(() => {
+        if (navigator.onLine) {
+          const btn = document.querySelector(".retry-button");
+          btn.style.animation = "pulse 1s infinite";
+        }
+      }, 3000);
+    </script>
+  </body>
+</html>
