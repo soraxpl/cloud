@@ -114,10 +114,7 @@ self.addEventListener("fetch", (event) => {
   event.respondWith(
     caches.match(event.request).then((cachedResponse) => {
       if (cachedResponse && isCacheExpired(cachedResponse)) {
-        console.log(
-          "[ServiceWorker] Cache expired, fetching fresh:",
-          event.request.url
-        );
+        console.log("[ServiceWorker] Cache expired, fetching fresh:", event.request.url);
         cachedResponse = null;
       }
 
@@ -129,11 +126,7 @@ self.addEventListener("fetch", (event) => {
 
       return fetch(fetchRequest)
         .then((response) => {
-          if (
-            !response ||
-            response.status !== 200 ||
-            response.type === "error"
-          ) {
+          if (!response || response.status !== 200 || response.type === "error") {
             return response;
           }
 
@@ -146,22 +139,26 @@ self.addEventListener("fetch", (event) => {
             statusText: responseToCache.statusText,
             headers: headers,
           });
+
           caches.open(targetCache).then(async (cache) => {
             await cache.put(event.request, modifiedResponse);
-            const maxSize = isImage
-              ? MAX_IMAGE_CACHE_SIZE
-              : MAX_RUNTIME_CACHE_SIZE;
+            const maxSize = isImage ? MAX_IMAGE_CACHE_SIZE : MAX_RUNTIME_CACHE_SIZE;
             await trimCache(targetCache, maxSize);
           });
 
           return response;
         })
         .catch((error) => {
-          console.log("[ServiceWorker] Fetch failed:", error);
+          console.log("[ServiceWorker] Fetch failed (Offline):", error);
+          
           if (event.request.mode === "navigate") {
-            return caches.match(BASE_PATH + "offline.html");
+             return caches.match(BASE_PATH + "offline.html");
           }
-          return caches.match(BASE_PATH + "index.html");
+          
+          // Jika request gambar gagal, bisa kasih gambar placeholder (opsional)
+          // if (isImage) { return caches.match(BASE_PATH + "offline-image.png"); }
+
+          return null; 
         });
     })
   );
