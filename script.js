@@ -76,24 +76,38 @@
 
         async function urlToFile(url) {
             try {
-                const urlObj = new URL(url);
-                    
-                if (!['http:', 'https:'].includes(urlObj.protocol)) {
-                    throw new Error('URL harus menggunakan HTTP atau HTTPS');
+                const cleanInput = url.trim();
+        
+                let urlObj;
+                try {
+                    urlObj = new URL(cleanInput);
+                } catch (err) {
+                    throw new Error("Format URL tidak valid (Contoh benar: https://google.com)");
                 }
-
-                const response = await fetch(url);
-
+                
+                if (urlObj.protocol !== 'http:' && urlObj.protocol !== 'https:') {
+                    throw new Error('URL wajib menggunakan HTTP atau HTTPS');
+                }
+        
+                const workerUrl = 'https://my-cors-proxy.xnuvers.workers.dev';
+                
+                const proxyUrl = `${workerUrl}/?url=${encodeURIComponent(cleanInput)}`;
+        
+                const response = await fetch(proxyUrl);
+        
                 if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
+                    throw new Error(`Gagal download (Status: ${response.status})`);
                 }
                     
                 const blob = await response.blob();
-                const filename = sanitizeFilename(urlObj.pathname.split('/').pop().split('?')[0] || 'download-Xnuvers007.jpg');
+                
+                const cleanUrlPart = cleanInput.split('?')[0]; 
+                const filename = sanitizeFilename(cleanUrlPart.split('/').pop() || 'download-Xnuvers007.jpg');
+                
                 return new File([blob], filename, { type: blob.type });
+        
             } catch (e) {
-                // throw new Error("Gagal mengambil gambar. Pastikan URL valid dan bisa diakses publik (CORS).");
-                throw new Error(`Gagal mengambil file: ${e.message}`);
+                throw new Error(e.message); 
             }
         }
 
