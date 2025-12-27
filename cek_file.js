@@ -52,8 +52,8 @@ async function checkFiles() {
       const datePad = createdDate.toLocaleDateString().padEnd(20, ' ');
       const agePad = `${ageDays} hari`.padEnd(11, ' ');
       
-      // Tandai jika sudah lewat 5 hari (Calon terhapus)
-      const status = parseFloat(ageDays) >= 5 ? "⚠️ EXPIRED" : "✅ AMAN";
+      // Tandai jika sudah lewat 8 hari (Calon terhapus)
+      const status = parseFloat(ageDays) >= 8 ? "⚠️ EXPIRED" : "✅ AMAN";
 
       console.log(`| ${namePad} | ${datePad} | ${agePad} | ${file.$id} | ${status}`);
     }
