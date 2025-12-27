@@ -8,7 +8,7 @@ const client = new sdk.Client()
 const storage = new sdk.Storage(client);
 const BUCKET_ID = process.env.BUCKET_ID;
 
-const EXPIRATION_DAYS = 6;
+const EXPIRATION_DAYS = 8;
 
 async function deleteExpiredFiles() {
   try {

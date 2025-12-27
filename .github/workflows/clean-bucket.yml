@@ -1,13 +1,12 @@
 name: Hapus Semua File Appwrite
 
 on:
-  # Opsi 1: Bisa dijalankan manual lewat tombol
   workflow_dispatch:
   
   # Opsi 2: (Opsional) Jalankan otomatis setiap jam 12 malam
   # Runs at 17:00, every 5 days.
   schedule:
-    - cron: '0 17 */5 * *'
+    - cron: '0 17 */8 * *'
     
 jobs:
   cleanup:
